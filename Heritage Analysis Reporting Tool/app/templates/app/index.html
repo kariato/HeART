@@ -1,0 +1,51 @@
+{% extends "app/layout.html" %}
+
+{% block content %}
+
+<div class="jumbotron">
+    <h1>HeART</h1>
+    <p class="lead">Heritage Analysis Reporting Tool designed to let you view your data in interesting ways.</p>
+
+</div>
+{% if user.is_authenticated %}
+<div class="row">
+    <div class="col-md-4">
+        <h2>Hi, {{ user.username }}</h2>
+        <p>
+           Manage DNA Kits
+        </p>
+        <p><a class="btn btn-default" href="{% url 'home' %}">Learn more &raquo;</a></p>
+    </div>
+    <div class="col-md-4">
+        <h2>Reports</h2>
+        <p>U</p>
+        <p><a class="btn btn-default" href="{% url 'home' %}">Learn more &raquo;</a></p>
+    </div>
+    <div class="col-md-4">
+        <h2>Managed Accounts</h2>
+        <p>You can easily generate the data </p>
+        <p><a class="btn btn-default" href="{% url 'home' %}">Learn more &raquo;</a></p>
+    </div>
+</div>
+{% else %}
+<div class="row">
+    <div class="col-md-4">
+        <h2>Getting started</h2>
+        <p>
+           Simply create an account then upload your matches and press a button.
+        </p>
+        <p><a class="btn btn-default" href="{% url 'home' %}">Learn more &raquo;</a></p>
+    </div>
+    <div class="col-md-4">
+        <h2>GEDCOM Files</h2>
+        <p>U</p>
+        <p><a class="btn btn-default" href="{% url 'home' %}">Learn more &raquo;</a></p>
+    </div>
+    <div class="col-md-4">
+        <h2>FamilyTreeDna</h2>
+        <p>You can easily generate the data </p>
+        <p><a class="btn btn-default" href="{% url 'home' %}">Learn more &raquo;</a></p>
+    </div>
+</div>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,15 @@
+{% extends "app/layout.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+    <div class="well col-md-6">
+        <p>Please select a DNA Kit information to upload</p>
+            <form action="{% url 'dnadata_uploadFile' %}" method="post" enctype="multipart/form-data">{% csrf_token %}
+                <p>
+                    <input id="id_image" type="file" class="" name="uploadFile">
+                </p>
+                <input type="submit" value="Submit" />
+            </form>
+
+    </div>
+
+{% endblock content %}

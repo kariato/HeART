@@ -1,0 +1,30 @@
+{% extends "app/layout.html" %}
+{% load crispy_forms_tags %}
+
+
+{{% block title %}
+Overview for {{ user.username }}
+{% endblock title %}
+
+{# TODO check empty for all lists #}
+{% block content %}
+    <div class="well col-sm-6">
+
+    </div>
+    
+    <div class="well col-sm-4 col-sm-push-1">
+        {% if myFamilies %}
+            <h3 class="panel-header">Open invitations</h3>    
+            <div class="list-group" >
+                {% for family in myFamilies %}
+                    <a class="list-group-item" href="{% url 'dnadata_family' pk=family.id %}">
+                        {{ family.familyName }} has invited you to a game. Click here.
+                    </a>
+                {% endfor %}
+            </div>
+        {% endif %}
+        
+        <a href="[ url 'tictactoe_invite' ]">Invite another user to play a game</a>
+    </div> 
+    
+{% endblock content %}

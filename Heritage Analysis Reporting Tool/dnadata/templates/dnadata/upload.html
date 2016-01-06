@@ -1,0 +1,13 @@
+{% extends "app/layout.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+    <div class="well col-md-6">
+        <p>Please select a DNA Kit information to upload</p>
+        <form action="" method="post">
+            {% csrf_token %}
+            {{ form|crispy }}
+            <input type="submit" value="Submit" class="btn btn-default" />
+        </form>
+    </div>
+
+{% endblock content %}
