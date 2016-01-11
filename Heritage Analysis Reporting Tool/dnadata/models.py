@@ -39,7 +39,7 @@ class DNAKitUpload(models.Model):
     status = models.CharField(max_length=300,  blank=True)
     log = models.CharField(max_length=300, blank=True)
     uploaded = models.DateTimeField('date created', default=datetime.now)
-    files = models.FileField( blank=True)
+    filesInfo = models.FileField(upload_to='documents/%Y/%m/%d', blank=True)
 
 class DNAMatch(models.Model):
     resultSet = models.ForeignKey(DNAKit)

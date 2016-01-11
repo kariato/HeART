@@ -3,15 +3,18 @@ from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
 from .models import DNAKitUpload,Family,ExampleModel
 from .forms import UploadForm,FileUploadForm
-
+from .readFile import readFile
 @login_required
 def upload(request):
     if request.method == 'POST':
-        dnakitupload = DNAKitUpload(status='Success',filename='tbd',log='xxx', files=request.POST.get("files",""))
+        dnakitupload = DNAKitUpload(status='Success',filename='tbd',log='xxx', filesInfo=request.POST.get("files",""))
         #dnakitupload.files.get_attname()
         form = UploadForm(request.POST, request.FILES, instance=dnakitupload)
         if form.is_valid():
             form.save()
+            dnakitupload.filesInfo=request.POST.get("filesInfo","")
+            dnakitupload.save()
+            readFile(dnakitupload.kit,dnakitupload.filesInfo.path)
             return render(request, "dnadata/uploadresults.html")
         else:
             return render(request,'dnadata/upload.html', {'form': form })
