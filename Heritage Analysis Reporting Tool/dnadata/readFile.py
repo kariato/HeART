@@ -1,6 +1,33 @@
 __author__ = 'mdavey'
 import  csv
+import re
 from .models import DNAKitUpload,Family,ExampleModel,DNAKit
+
+
+def readCSV(filename):
+        with open(filename, encoding="utf8") as csvFF:
+            lineNum = 1
+            _lines=[]
+            for line in csvFF:
+                if lineNum==1:
+                    gedItems= line.split(",")
+                    _header=gedItems
+                    lineNum=2
+
+                else:
+                    gedItems = re.findall(r'".+?"|[^"]+?(?=,)|(?<=,)[^"]+', line)
+                    item={}
+                    for i in range(0,len(gedItems)):
+                        if (i < len(_header)):
+                            if gedItems[i][:1]==',':
+                                item[_header[i]]=gedItems[i][1:]
+                            else:
+                                item[_header[i]]=gedItems[i]
+                        else:
+                            print("***"+gedItems[i])
+                    _lines.append(item)
+                    #print(item)
+        return _lines
 
 
 def readFile(kit,file):
@@ -10,22 +37,19 @@ def readFile(kit,file):
     print(dnakit.family)
     file = file.replace("\\\\","\\")
     if file.find("Family_Finder_Matches") != -1:
-        with open(file) as csvFF:
-            ffreader = csv.DictReader(csvFF, dialect="excel")
+            ffreader = readCSV(file)
             for arow in ffreader:
                 print( arow['Full Name'],arow['Match Date'],arow['Relationship Range'],
                                 arow['Suggested Relationship'],arow['Shared cM'],arow['Longest Block'],arow['Known Relationship'],
                                 arow['E-mail'],arow['Ancestral'],arow['YDNA Haplogroup'],arow['mtDNA Haplogroup'],arow['ResultID2'],
                                 arow['Notes'],arow['Name'])
     if file.find("_ICW") != -1:
-        with open(file) as csvICW:
-            ffICWreader = csv.DictReader(csvICW, dialect="excel")
-            for arow in ffICWreader:
-                print(arow['Profile Name'],
-                               arow['Full Name'],arow['0'],arow['0'],arow['E-Mail'],arow['Profile KitID'],arow['Match KitID'])
+         ffICWreader = readCSV(file)
+         for arow in ffICWreader:
+            print(arow['Profile Name'],arow['Full Name'],arow['0'],arow['0'],arow['E-Mail'],arow['Profile KitID'],arow['Match KitID'])
+
     if file.find("_ChromosomeBrowser") != -1:
-        with open(file) as csvfile:
-            reader = csv.DictReader(csvfile, dialect="excel")
+            reader = readCSV(file)
             for arow in reader:
                print(arow['Profile Name'],arow['Full Name'],
                               arow['Chromosome'],arow['Start'],arow['End'],arow['cM'],arow['SNPS'],arow['KitID'])
