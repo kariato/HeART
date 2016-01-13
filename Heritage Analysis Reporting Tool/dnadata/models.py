@@ -41,6 +41,7 @@ class DNAKitUpload(models.Model):
     uploaded = models.DateTimeField('date created', default=datetime.now)
     filesInfo = models.FileField(upload_to='documents/%Y/%m/%d', blank=True)
 
+
 class DNAMatch(models.Model):
     resultSet = models.ForeignKey(DNAKit)
     fullName = models.CharField(max_length=300)
@@ -55,6 +56,11 @@ class DNAMatch(models.Model):
     knownRelationship = models.CharField(max_length=300)
     email = models.CharField(max_length=300)
     ancestralSurnames = models.CharField(max_length=3000)
+    YDNAHaplogroup  = models.CharField(max_length=300)
+    mtDNAHaplogroup  = models.CharField(max_length=300)
+    resultID2  = models.CharField(max_length=300)
+    notes  = models.CharField(max_length=3000)
+    name  = models.CharField(max_length=3000)
 
     def __str__(self):
         return "{0}({1})".format(self.fullName,self.suggestedRelationship)
@@ -70,6 +76,12 @@ class DNASegment(models.Model):
 
     def __str__(self):
         return "{0}:{1}-{2}".format(self.chromosome,self.startLocation,self.endLocation)
+
+class DNAICW(models.Model):
+    kit = models.ForeignKey(DNAKit)
+    first_match = models.ForeignKey(DNAMatch, related_name="icw_first_match")
+    second_match = models.ForeignKey(DNAMatch, related_name="icw_second_match")
+
 
 class ExampleModel(models.Model):
     model_file = models.FileField(upload_to = 'file_folder/', default = 'file_folder/None/no-file.csv')
